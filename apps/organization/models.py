@@ -57,6 +57,7 @@ class Teacher(models.Model):
     click_num = models.IntegerField(default=0, verbose_name=u"点击数")
     fav_num = models.IntegerField(default=0, verbose_name=u"收藏人数")
     image = models.ImageField(upload_to="teacher/%Y/%m", null=True, blank=True, verbose_name=u"头像", max_length=100)
+    age = models.IntegerField(default=18, verbose_name=u"年龄")
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
 
     class Meta:
@@ -68,3 +69,6 @@ class Teacher(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_hot_course(self):
+        return self.course_set.order_by('-click_num')[:1][0]

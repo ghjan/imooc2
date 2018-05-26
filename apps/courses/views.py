@@ -81,9 +81,7 @@ class CourseDetailView(View):
                     })
                 return render(request, 'course_detail.html', data)
         except Exception as e:
-            import traceback
             print(e)
-            traceback.print_exc()
 
 
 class CourseVideoView(LoginRequiredMixin, View):

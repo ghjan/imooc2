@@ -31,7 +31,7 @@
                     <div class="bottom">
                         <span class="fl">{{ org.name }}</span>
                         <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
+                            " data-favid="13" data-favtype="4">
                             {{ course.fav_num }}
                         </span>
                     </div>
@@ -43,7 +43,7 @@
     <div class="right companycenter layout">
         <div class="head">
             <h1>机构教师</h1>
-            <a class="green fr more" href="{% url 'organization:org_detail_teachers' org.id %}">查看更多 > </a>
+            <a class="green fr more" href="{% url 'organization:org_teacher_list' org.id %}">查看更多 > </a>
         </div>
         {% for teacher in all_teachers %}
             <div class="diarys">
@@ -55,11 +55,13 @@
                     <div class="right">
                         <div class="top">
                             <div class="fl">
-                                <a href=""><h1>java开发教程</h1></a>
-                                <span>发表于：2015-10-12</span>
+                                <a href=""><h1>{{ teacher.get_hot_course.name }}</h1></a>
+                                <span>发表于：{{ teacher.get_hot_course.add_time }}</span>
                             </div>
                         </div>
-                        <div class="middle" style="border-bottom:0;">课程介绍</div>
+                        <div class="middle" style="border-bottom:0;">课程介绍:
+                        {{ teacher.get_hot_course.desc }}
+                        </div>
                     </div>
                 </div>
             </div>

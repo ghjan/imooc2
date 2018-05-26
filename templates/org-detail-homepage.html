@@ -47,7 +47,7 @@
                         </p>
                     </div>
                     <div class="btn fr collectionbtn  notlogin
-                 " data-favid="22" data-fav-type="1">
+                 " data-favid="22" data-favtype="1">
                         收藏
                     </div>
 
@@ -73,7 +73,7 @@
                 <li class="active2"><a href="{% url 'organization:org_detail_homepage' org.id %}">机构首页</a></li>
                 <li class=""><a href="{% url 'organization:org_detail_course' org.id %}">机构课程</a></li>
                 <li class=""><a href="{% url 'organization:org_detail_desc' org.id %}">机构介绍</a></li>
-                <li class=""><a href="{% url 'organization:org_detail_teachers' org.id %}">机构讲师</a></li>
+                <li class=""><a href="{% url 'organization:org_teacher_list' org.id %}">机构讲师</a></li>
             </ul>
         </div>
 
@@ -94,7 +94,7 @@
                     <div class="bottom">
                         <span class="fl">慕课网</span>
                          <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
+                            " data-favid="13" data-favtype="4">
                             0
                         </span>
                     </div>
@@ -111,7 +111,7 @@
                     <div class="bottom">
                         <span class="fl">慕课网</span>
                          <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
+                            " data-favid="13" data-favtype="4">
                             0
                         </span>
                     </div>
@@ -127,7 +127,7 @@
                     <div class="bottom">
                         <span class="fl">慕课网</span>
                          <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
+                            " data-favid="13" data-favtype="4">
                             0
                         </span>
                     </div>
@@ -139,7 +139,7 @@
         <div class="right companycenter layout">
             <div class="head">
                 <h1>机构教师</h1>
-                <a class="green fr more" href="{% url 'organization:org_detail_teachers' org.id %}">查看更多 > </a>
+                <a class="green fr more" href="{% url 'organization:org_teacher_list' org.id %}">查看更多 > </a>
             </div>
 
             <div class="diarys">
@@ -263,7 +263,7 @@
         $precision.raty(option);
 
         $('.jsFavBtn').on('click', function () {
-            var type = $(this).attr('data-fav-type');
+            var type = $(this).attr('data-favtype');
             if (type == '1') {
                 favPraise($(this), 'fav', 1, '收藏');
 

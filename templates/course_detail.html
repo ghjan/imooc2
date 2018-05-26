@@ -58,7 +58,7 @@
                             </li>
                         </ul>
                         <div class="btns">
-                            <div class="btn colectgroupbtn collectionbtn" data-favid="{{ course.id }}" data-fav-type="1"
+                            <div class="btn colectgroupbtn collectionbtn" data-favid="{{ course.id }}" data-favtype="1"
                                  id="jsLeftBtn">
                                 {% if has_fav %}已收藏 {% else %}未收藏 {% endif %}
                             </div>
@@ -96,7 +96,7 @@
                         <h2 class="center" title="{{ course.course_org.name }}">{{ course.course_org.name }}</h2>
                     </a>
                     <div class="btn  notlogin collectionbtn"
-                         data-favid="{{ course.course_org.id }}" data-fav-type="2" id="jsRightBtn">
+                         data-favid="{{ course.course_org.id }}" data-favtype="2" id="jsRightBtn">
                         {% if has_fav_org %}已收藏 {% else %}未收藏 {% endif %}
                     </div>
                     <div class="clear">
@@ -286,7 +286,7 @@
 
         $('.collectionbtn').on('click', function () {
             var fav_id = $(this).attr('data-favid');
-            var fav_type = $(this).attr('data-fav-type');
+            var fav_type = $(this).attr('data-favtype');
             add_fav($(this), fav_id, fav_type);
         });
 

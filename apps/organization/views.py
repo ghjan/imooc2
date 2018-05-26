@@ -142,7 +142,7 @@ class OrgDescView(View):
             print(e)
 
 
-class OrgTeachersView(View):
+class TeacherListView(View):
     def get(self, request, org_id):
         try:
             org = CourseOrg.objects.get(id=int(org_id))
@@ -157,6 +157,42 @@ class OrgTeachersView(View):
                 'all_teachers': all_teachers,
                 'org': org,
             })
+        except Exception as e:
+            print(e)
+
+
+class TeacherDetailView(View):
+    def get(self, request, teacher_id):
+        hot_teachers = Teacher.objects.order_by("-click_num")[:3]
+        data = {'hot_teachers': hot_teachers,}
+        try:
+            teacher = Teacher.objects.get(id=int(teacher_id))
+            if teacher:
+                teacher.click_num += 1
+                teacher.save()
+                data.update({
+                    'teacher': teacher,
+                })
+                if request.user.is_authenticated():
+                    has_fav = False
+                    try:
+                        uf = UserFavorite.objects.get(user=request.user, fav_id=teacher_id, fav_type=3)
+                        if uf:
+                            has_fav = True
+                    except:
+                        pass
+                    has_fav_org = False
+                    try:
+                        uf = UserFavorite.objects.get(user=request.user, fav_id=teacher.org.id, fav_type=2)
+                        if uf:
+                            has_fav_org = True
+                    except:
+                        pass
+                    data.update({
+                        'has_fav': has_fav,
+                        'has_fav_org': has_fav_org
+                    })
+                return render(request, 'teacher_detail.html', data)
         except Exception as e:
             print(e)
 
