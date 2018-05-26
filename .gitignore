@@ -1,0 +1,14 @@
+.idea
+*.pyc
+*.rdb
+*.log
+*.pyc
+*.pdf
+*.zip
+*.pptx
+*.ppt
+media/*
+static_root/*
+work_run/*
+logs/*
+

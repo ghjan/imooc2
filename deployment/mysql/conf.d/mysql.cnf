@@ -1,0 +1,106 @@
+[mysqld]
+port=3308
+# record_buffer=64M
+bind-address=0.0.0.0
+# skip-grant-tables
+# 数据目录
+datadir=/var/lib/mysql
+# unixsock
+socket=/var/lib/mysql/mysql.sock
+# 默认的user
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# 服务器端默认字符集
+character-set-server=UTF8
+# 跳过DNS解析，提高连接速度
+skip-name-resolve
+# 跳过外部锁定
+skip-external-locking
+# 默认存储引擎
+default-storage-engine = InnoDB
+# 最大连接数
+max_connections = 1024
+max_connect_errors = 16
+# 最大连接排队数
+back_log = 384
+# 最大数据包
+max_allowed_packet = 16M
+# 禁止将本地文件读到数据库中
+local-infile = 0
+thread_stack = 192k
+transaction_isolation = REPEATABLE-READ
+# 缓存相关
+key_buffer_size = 32M
+table_open_cache = 512
+sort_buffer_size = 8M
+join_buffer_size = 8M
+read_buffer_size = 2M
+read_rnd_buffer_size = 16M
+binlog_cache_size = 1M
+max_heap_table_size = 64M
+tmp_table_size = 64M
+# 确定使用的filesort算法的索引值大小的限值
+max_length_for_sort_data = 64
+thread_cache_size = 8
+query_cache_type = 1
+query_cache_limit = 2M
+query_cache_size = 64M
+
+# innodb
+innodb_fast_shutdown = 0
+innodb_buffer_pool_size = 2G
+#innodb_additional_mem_pool_size = 16M
+# innodb_log_file_size = 5M
+innodb_log_files_in_group = 3
+innodb_log_buffer_size = 4M
+innodb_flush_log_at_trx_commit = 2
+innodb_thread_concurrency = 16
+innodb_flush_method = O_DIRECT
+innodb_file_per_table = 1
+innodb_log_buffer_size = 8M
+# innodb_file_io_threads = 4
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+# 日志相关
+#log = /var/lib/mysql/mysql.log
+log-error = /var/lib/mysql/mysql.error.log
+long_query_time = 0.3
+#log-slow-queries = /var/lib/mysql/mysql.slow.log
+# 记录没有使用索引的查询
+#log-queries-not-using-indexes
+
+# Try number of CPU's*2 for thread_concurrency
+#thread_concurrency = 8
+
+# MySQL全文索引查询所用关键词最小长度限制（不要改变这项值）
+ft_min_word_len = 1
+
+# 降低Update优先级，设置查询优先
+low_priority_updates = 1
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+#pid-file=/var/lib/mysql/mysqld.pid
+[client]
+port=3308
+default-character-set=UTF8
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[myisamchk]
+key_buffer_size = 512M
+sort_buffer_size = 512M
+read_buffer = 8M
+write_buffer = 8M
+
+[mysqlhotcopy]
+interactive-timeout
