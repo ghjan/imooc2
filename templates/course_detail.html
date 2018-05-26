@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block content %}
+    <div id="main">
     <div class="wp">
         <div class="groupPurchase_detail detail">
             <div class="toppro">
@@ -128,7 +129,7 @@
                 <div class="tab_cont tab_cont1">
 
                     <p>&nbsp; &nbsp; {{ course.name }}</p>
-                    <p><img src="{{ MEDIA_URL }}{{ course.image }}" title="" alt="{% static 'images/aobama.png' %}"/></p>
+                    <p><img width="80" height="85" src="{{ MEDIA_URL }}{{ course.image }}" title="" alt="{% static 'images/aobama.png' %}"/></p>
                     <table>
                         <tbody>
                         <tr class="firstRow">
@@ -248,6 +249,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}
 {% block customejs3 %}

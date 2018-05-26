@@ -167,3 +167,31 @@ class CourseAddComment(View):
         else:
             return HttpResponse(json.dumps({'status': 'fail', 'msg': '用户未登录'}),
                                 content_type='application/json')
+
+
+class VideoPlayView(LoginRequiredMixin, View):
+    def get(self, request, video_id):
+        try:
+            video = Video.objects.get(id=video_id)
+            if video:
+                course = video.lesson.course
+                course_id = course.id
+                Teacher.objects.get(course=course_id)
+
+                user_courses_self = UserCourse.objects.filter(user=request.user, course=course)
+                if not user_courses_self:
+                    # 如果没有，先保存
+                    user_course = UserCourse(user=request.user, course=course)
+                    user_course.save()
+
+                # 学过该课程的还学过
+                related_courses = _get_related_learn_courses(course_id)
+
+                data = {
+                    'video': video,
+                    'course': course,
+                    'related_courses': related_courses,
+                }
+                return render(request, 'course_play.html', data)
+        except Exception as e:
+            print(e)

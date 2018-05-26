@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from courses.views import CoursesListView, CourseDetailView, CourseVideoView, CourseCommentView, CourseAddComment
+from courses.views import CoursesListView, CourseDetailView, CourseVideoView, CourseCommentView, CourseAddComment, \
+    VideoPlayView
 
 urlpatterns = [
     url(r'^list$', CoursesListView.as_view(), name="courses_list"),
@@ -8,5 +9,6 @@ urlpatterns = [
     url(r'^video/(?P<course_id>\d+)$', CourseVideoView.as_view(), name="course_video"),
     url(r'^comment/(?P<course_id>\d+)$', CourseCommentView.as_view(), name="course_comment"),
     url(r'^add_comment$', CourseAddComment.as_view(), name="add_comment"),
+    url(r'^video_play/(?P<video_id>\d+)$', VideoPlayView.as_view(), name="video_play"),
 
 ]
