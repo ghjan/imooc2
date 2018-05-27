@@ -4,6 +4,8 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.base import View
+from django.db.models import Q
+
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from operation.models import UserFavorite
 from .models import CityDict, CourseOrg, Teacher
@@ -11,7 +13,15 @@ from .models import CityDict, CourseOrg, Teacher
 
 class TeachersList(View):
     def get(self, request):
-        all_teachers = Teacher.objects.all()
+        keywords = request.GET.get('keywords')
+        if not keywords:
+            all_teachers = Teacher.objects.all().order_by('-add_time')
+        else:
+            all_teachers = Teacher.objects.filter(
+                Q(name__icontains=keywords) | Q(work_company__icontains=keywords) | Q(
+                    work_position__icontains=keywords)).order_by(
+                '-add_time')
+
         hot_teachers = Teacher.objects.order_by("-click_num")[:3]
 
         sort = request.GET.get("sort", "")
@@ -28,7 +38,6 @@ class TeachersList(View):
         teachers = p.page(param_page)
         teacher_nums = len(all_teachers)
         return render(request, 'teachers_list.html', {
-            'list_view': 'teachers',
             'all_teachers': teachers,
             'teacher_nums': teacher_nums,
             'sort': sort,
@@ -38,7 +47,13 @@ class TeachersList(View):
 
 class OrgList(View):
     def get(self, request):
-        all_orgs = CourseOrg.objects.all()
+        keywords = request.GET.get('keywords')
+        if not keywords:
+            all_orgs = CourseOrg.objects.all().order_by('-add_time')
+        else:
+            all_orgs = CourseOrg.objects.filter(
+                Q(name__icontains=keywords) | Q(desc__icontains=keywords)).order_by(
+                '-add_time')
         hot_orgs = CourseOrg.objects.order_by("-click_num")[:3]
         all_cities = CityDict.objects.all()
         all_ct = dict((("pxjg", "培训机构"), ("gr", "个人"), ("gx", "高校"),))
@@ -66,7 +81,6 @@ class OrgList(View):
         orgs = p.page(page)
         org_nums = len(all_orgs)
         return render(request, 'org_list.html', {
-            'list_view': 'orgs',
             "all_orgs": orgs,
             "all_cities": all_cities,
             "org_nums": org_nums,

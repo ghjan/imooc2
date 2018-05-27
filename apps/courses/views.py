@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse
+from django.db.models import Q
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from utils.views import LoginRequiredMixin
 from operation.models import UserFavorite, CourseComments, UserCourse
@@ -15,9 +16,11 @@ class CoursesListView(View):
     def get(self, request):
         keywords = request.GET.get('keywords')
         if not keywords:
-            all_courses = Course.objects.all()
+            all_courses = Course.objects.all().order_by('-add_time')
         else:
-            all_courses = Course.objects.filter(name__contains=keywords)
+            all_courses = Course.objects.filter(
+                Q(name__icontains=keywords) | Q(desc__icontains=keywords) | Q(detail__icontains=keywords)).order_by(
+                '-add_time')
         hot_courses = Course.objects.order_by("-click_num")[:3]
         sort = request.GET.get("sort", "")
         if sort:
@@ -40,7 +43,6 @@ class CoursesListView(View):
 
         try:
             return render(request, 'courses_list.html', {
-                'list_view': 'courses',
                 "all_courses": courses,
                 "hot_courses": hot_courses,
                 "sort": sort,

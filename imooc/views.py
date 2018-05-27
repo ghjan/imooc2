@@ -13,7 +13,6 @@ class HomepageView(View):
         all_orgs = CourseOrg.objects.all()
         all_courses = Course.objects.all()
         return render(request, 'index.html', {
-            'list_view': 'home',
             'all_orgs': all_orgs,
             'all_courses': all_courses,
         })

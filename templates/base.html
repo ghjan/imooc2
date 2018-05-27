@@ -84,7 +84,7 @@
                     <div class="nav">
                         <div class="wp">
                             <ul>
-                                <li class="{% ifequal request.path|slice:'1:7' '' %}active{% endifequal %}"><a
+                                <li class="{% ifequal request.path '/' %}active{% endifequal %}"><a
                                         href="{% url 'index' %}">首页</a></li>
                                 <li class="{% ifequal request.path|slice:'1:7'  'course' %}active{% endifequal %}">
                                     <a href="{% url 'courses_list' %}">
