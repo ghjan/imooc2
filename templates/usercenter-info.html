@@ -37,13 +37,13 @@
                             <dl>
                                 <dt><img width="80" height="80" src="/media/image/2016/12/default_big_14.png"/></dt>
                                 <dd>
-                                    <h2>django</h2>
-                                    <p>bobby</p>
+                                    {{ request.user.nick_name }}
+                                    {{ request.user.username }}
                                 </dd>
                             </dl>
                             <div class="btn">
-                                <a class="personcenter fl" href="usercenter-info.html">进入个人中心</a>
-                                <a class="fr" href="/logout/">退出</a>
+                                <a class="personcenter fl" href="{% url 'usercenterinfo' %}">进入个人中心</a>
+                                <a class="fr" href="{% url 'logout' %}">退出</a>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
     <div class="wp">
         <ul class="crumbs">
             <li><a href="{% url 'index' %}">首页</a>></li>
-            <li><a href="/user/home/">个人中心</a>></li>
+            <li><a href="{% url 'usercenterinfo' %}">个人中心</a>></li>
             <li>个人信息</li>
         </ul>
     </div>
@@ -82,7 +82,7 @@
     <div class="wp list personal_list">
         <div class="left">
             <ul>
-                <li class="active2"><a href="usercenter-info.html">个人资料</a></li>
+                <li class="active2"><a href="{% url 'usercenterinfo' %}">个人资料</a></li>
                 <li><a href="usercenter-mycourse.html">我的课程</a></li>
                 <li><a href="usercenter-fav-course.html">我的收藏</a></li>
                 <li>
@@ -103,7 +103,7 @@
                     <div class="left" style="width:242px;">
                         <iframe id='frameFile' name='frameFile' style='display: none;'></iframe>
                         <form class="clearfix" id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off"
-                              method="post" action="/users/image/upload/" target='frameFile'>
+                              method="post" action="{% url 'image_upload' %}" target='frameFile'>
                             <label class="changearea" for="avatarUp">
                             <span id="avatardiv" class="pic">
                                 <img width="100" height="100" class="js-img-show" id="avatarShow"
@@ -114,7 +114,7 @@
                                 <input type="file" name="image" id="avatarUp" class="js-img-up"/>
                             </span>
                             </label>
-                            <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
+                            {% csrf_token %}
                         </form>
                         <div style="border-top:1px solid #eaeaea;margin-top:30px;">
                             <a class="button btn-green btn-w100" id="jsUserResetPwd"
@@ -124,11 +124,11 @@
                     <form class="perinform" id="jsEditUserForm" autocomplete="off">
                         <ul class="right">
                             <li>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：
-                                <input type="text" name="nick_name" id="nick_name" value="django" maxlength="10">
+                                <input type="text" name="nick_name" id="nick_name" value="{{ request.user.nick_name }}" maxlength="10">
                                 <i class="error-tips"></i>
                             </li>
                             <li>生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：
-                                <input type="text" id="birth_day" name="birday" value="2009年9月2日" readonly="readonly"/>
+                                <input type="text" id="birth_day" name="birday" value="{{ request.user.birday }}" readonly="readonly"/>
                                 <i class="error-tips"></i>
                             </li>
                             <li>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：
@@ -156,7 +156,7 @@
                                 <input type="button" id="jsEditUserBtn" value="保存">
                             </li>
                         </ul>
-                        <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
+                        {% csrf_token %}
                     </form>
                 </div>
             </div>
@@ -182,7 +182,7 @@
 <div class="dialog" id="jsDialog">
     <div class="successbox dialogbox" id="jsSuccessTips">
         <h1>成功提交</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <div class="cont">
             <h2>您的需求提交成功！</h2>
             <p></p>
@@ -191,7 +191,7 @@
     <!--提示弹出框-->
     <div class="bidtips dialogbox promptbox" id="jsComfirmDialig">
         <h1>确认提交</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <div class="cont">
             <h2>您确认提交吗？</h2>
             <dd class="autoTxtCount">
@@ -204,7 +204,7 @@
     </div>
     <div class="resetpwdbox dialogbox" id="jsResetDialog">
         <h1>修改密码</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <div class="cont">
             <form id="jsResetPwdForm" autocomplete="off">
                 <div class="box">
@@ -219,14 +219,14 @@
                 <div class="button">
                     <input id="jsResetPwdBtn" type="button" value="提交"/>
                 </div>
-                <input type='hidden' name='csrfmiddlewaretoken' value='DaP7IUKm9FA9nELA9YUlYYWpyIDdCiIP'/>
-                <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
+                {% csrf_token %}
+                {% csrf_token %}
             </form>
         </div>
     </div>
     <div class="dialogbox changeemai1 changephone" id="jsChangeEmailDialog">
         <h1>修改邮箱</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <p>请输入新的邮箱地址</p>
         <form id="jsChangeEmailForm" autocomplete="off">
             <div class="box">
@@ -240,16 +240,16 @@
             <div class="button">
                 <input class="changeemai_btn" id="jsChangeEmailBtn" type="button" value="完成"/>
             </div>
-            <input type='hidden' name='csrfmiddlewaretoken' value='DaP7IUKm9FA9nELA9YUlYYWpyIDdCiIP'/>
-            <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
+            {% csrf_token %}
+            {% csrf_token %}
         </form>
     </div>
 
     <div class="noactivebox dialogbox" id="jsUnactiveForm">
         <h1>邮件验证提示</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <div class="center">
-            <img src="/static/images//send.png"/>
+            <img src="{% static 'images/send.png' %}"/>
             <p>我们已经向您的邮箱<span class="green" id="jsEmailToActive">12@13.com</span>发送了邮件，<br/>为保证您的账号安全，请及时验证邮箱</p>
             <p class="a"><a class="btn" id="jsGoToEmail" target="_blank" href="http:/mail.qq.com">去邮箱验证</a></p>
             <p class="zy_success upmove"></p>
@@ -260,7 +260,7 @@
     </div>
     <div class="resetpassbox dialogbox" id="jsSetNewPwd">
         <h1>重新设置密码</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <p class="green">请输入新密码</p>
         <form id="jsSetNewPwdForm">
             <div class="box">
@@ -280,15 +280,15 @@
                 <input type="hidden" name="mobile" id="jsInpResetMobil"/>
                 <input id="jsSetNewPwdBtn" type="button" value="提交"/>
             </div>
-            <input type='hidden' name='csrfmiddlewaretoken' value='DaP7IUKm9FA9nELA9YUlYYWpyIDdCiIP'/>
+            {% csrf_token %}
         </form>
     </div>
     <div class="forgetbox dialogbox">
         <h1>忘记密码</h1>
-        <div class="close jsCloseDialog"><img src="/static/images//dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <div class="cont">
             <form id="jsFindPwdForm" autocomplete="off">
-                <input type='hidden' name='csrfmiddlewaretoken' value='DaP7IUKm9FA9nELA9YUlYYWpyIDdCiIP'/>
+                {% csrf_token %}
                 <div class="box">
                     <span class="word2">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</span>
                     <input type="text" id="account" name="account" placeholder="手机/邮箱"/>
@@ -335,11 +335,11 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/org/add_fav/",
+            url: "{% url 'organization:add_fav' %}",
             data: {
                 fav_type: 1,
                 fav_id: favid,
-                csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
+                csrfmiddlewaretoken:"{{ csrf_token }}"
             },
             async: true,
             success: function (data) {
@@ -354,11 +354,11 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/org/add_fav/",
+            url: "{% url 'organization:add_fav' %}",
             data: {
                 fav_type: 3,
                 fav_id: favid,
-                csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
+                csrfmiddlewaretoken:"{{ csrf_token }}"
             },
             async: true,
             success: function (data) {
@@ -374,11 +374,11 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/org/add_fav/",
+            url: "{% url 'organization:add_fav' %}",
             data: {
                 fav_type: 2,
                 fav_id: favid,
-                csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
+                csrfmiddlewaretoken:"{{ csrf_token }}"
             },
             async: true,
             success: function (data) {

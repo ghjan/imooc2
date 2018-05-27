@@ -36,14 +36,15 @@
                                 <dl class="user fr">
                                     <dd>{{ username }}<img class="down fr" src="{% static 'images/top_down.png' %}"/>
                                     </dd>
-                                    <dt><img width="20" height="20" src="{{ image }}"/></dt>
+                                    <dt><img width="20" height="20" src="{{ MEDIA_URL }}{{ request.user.image }}"/></dt>
                                 </dl>
                                 <div class="userdetail">
                                     <dl>
-                                        <dt><img width="80" height="80" src="{{ image }}"/></dt>
+                                        <dt><img width="80" height="80" src="{{ MEDIA_URL }}{{ request.user.image }}"/>
+                                        </dt>
                                         <dd>
-                                            <h2>django</h2>
-                                            <p>{{ username }}</p>
+                                            <h2>{{ request.user.nick_name }}</h2>
+                                            <p>{{ request.user.username }}</p>
                                         </dd>
                                     </dl>
                                     <div class="btn">
@@ -91,7 +92,6 @@
     {% block crumbs %}
     {% endblock %}
 </section>
-
 <section>
     <div class="wp list personal_list comp">
         {% block left %}
@@ -116,7 +116,6 @@
     {% block content %}
     {% endblock %}
 </section>
-
 <section>
     <ul class="sidebar">
         <li class="qq">
@@ -125,7 +124,6 @@
         <li class="totop"></li>
     </ul>
 </section>
-
 {% block customejs2 %}
     <script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
     <script type="text/javascript" src="{% static 'js/plugins/laydate/laydate.js' %}"></script>
@@ -234,6 +232,5 @@
         });
     </script>
 {% endblock %}
-
 </body>
 </html>

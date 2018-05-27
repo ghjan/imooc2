@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 from django.shortcuts import render
 # 密码 加密
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic.base import View
-from .forms import LoginForm, RegisterForm, ForgetForm, SetpwdForm
-from .models import UserProfile, EmailVerifyRecord
+from django.http import HttpResponse
 from utils.email_send import send_register_email
+from utils.views import LoginRequiredMixin
+from .forms import LoginForm, RegisterForm, ForgetForm, SetpwdForm, ImageUploadForm
+from .models import UserProfile, EmailVerifyRecord
 
 
 class LoginView(View):
@@ -70,9 +73,20 @@ class RegisterView(View):
             return render(request, "register.html", {'register_form': register_form})
 
 
-class UsercenterView(View):
+class UsercenterView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'usercenter-info.html', {})
+        return render(request, 'usercenter_info.html', {
+        })
+
+
+class ImageUploadView(LoginRequiredMixin, View):
+    def post(self, request):
+        image_form = ImageUploadForm(request.POST, request.FILES, instance=request.user)
+        if image_form.is_valid():
+            request.user.save()
+            return HttpResponse(json.dumps({'status': 'success'}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'status': 'fail'}), content_type='application/json')
 
 
 class ActivateUserView(View):
@@ -102,6 +116,9 @@ class ResetView(View):
 
 
 class SetpwdView(View):
+    """
+    重置密码
+    """
     def post(self, request):
         setpwd_form = SetpwdForm(request.POST)
         if setpwd_form.is_valid():
@@ -121,6 +138,33 @@ class SetpwdView(View):
             email = request.POST.get('email', '')
             return render(request, "password_reset.html", {"email": email, "setpwd_form": setpwd_form})
         return render(request, "login.html")
+
+
+class UpdatepwdView(View):
+    """
+    用户个人中心修改密码
+    """
+    def post(self, request):
+        setpwd_form = SetpwdForm(request.POST)
+        if setpwd_form.is_valid():
+            user_profile = request.user
+            pass_word = request.POST.get('password', '')
+            pass_word2 = request.POST.get('password2', '')
+            if pass_word != pass_word2:
+                return HttpResponse(json.dumps({"status": "fail", "msg": "密码两次输入不匹配"}),
+                                    content_type="application/json")
+            # 对密码加密
+            user_profile.password = make_password(pass_word)
+            user_profile.save()  # 保存到数据库
+        else:
+            data = {
+                "status": "fail", "msg": "",
+            }
+            data.update(setpwd_form.errors)
+            return HttpResponse(json.dumps(data),
+                                content_type="application/json")
+        return HttpResponse(json.dumps({"status": "success", "msg": ""}),
+                            content_type="application/json")
 
 
 class ForgetpwdView(View):

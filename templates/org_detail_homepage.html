@@ -22,7 +22,8 @@
         <div class="brief group_list">
             {% for course in all_courses %}
                 <div class="module1_5 box">
-                    <a href="{% url 'course_detail' course.id %}"><img width="214" src="{{ MEDIA_URL }}{{ course.image }}"/></a>
+                    <a href="{% url 'course_detail' course.id %}"><img width="214"
+                                                                       src="{{ MEDIA_URL }}{{ course.image }}"/></a>
                     <div class="des">
                         <a href="{% url 'course_detail' course.id %}"><h2>{{ course.name }}</h2></a>
                         <span class="fl">课时：<i class="key">{{ course.learn_times }}</i></span>
@@ -31,7 +32,7 @@
                     <div class="bottom">
                         <span class="fl">{{ org.name }}</span>
                         <span class="star fr  notlogin
-                            " data-favid="13" data-favtype="4">
+                            " data-favid="{{ course.id }}" data-favtype="1">
                             {{ course.fav_num }}
                         </span>
                     </div>
@@ -55,12 +56,13 @@
                     <div class="right">
                         <div class="top">
                             <div class="fl">
-                                <a href="{% url 'course_detail' teacher.get_hot_course.id %}"><h1>{{ teacher.get_hot_course.name }}</h1></a>
+                                <a href="{% url 'course_detail' teacher.get_hot_course.id %}">
+                                    <h1>{{ teacher.get_hot_course.name }}</h1></a>
                                 <span>发表于：{{ teacher.get_hot_course.add_time }}</span>
                             </div>
                         </div>
                         <div class="middle" style="border-bottom:0;">课程介绍:
-                        {{ teacher.get_hot_course.desc }}
+                            {{ teacher.get_hot_course.desc }}
                         </div>
                     </div>
                 </div>
