@@ -84,17 +84,18 @@
                     <div class="nav">
                         <div class="wp">
                             <ul>
-                                <li class="{% ifequal list_view 'home' %}active{% endifequal %}"><a
+                                <li class="{% ifequal request.path|slice:'1:7' '' %}active{% endifequal %}"><a
                                         href="{% url 'index' %}">首页</a></li>
-                                <li class="{% ifequal list_view 'courses' %}active{% endifequal %}">
+                                <li class="{% ifequal request.path|slice:'1:7'  'course' %}active{% endifequal %}">
                                     <a href="{% url 'courses_list' %}">
-                                        公开课<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                                        公开课<img class="hot"
+                                                src="{% static 'images/nav_hot.png' %}">
                                     </a>
                                 </li>
-                                <li class="{% ifequal list_view 'teachers' %}active{% endifequal %}">
+                                <li class="{% ifequal request.path|slice:'1:12'  'org/teacher' %}active{% endifequal %}">
                                     <a href="{% url 'organization:teachers_list' %}">授课教师</a>
                                 </li>
-                                <li class="{% ifequal list_view 'orgs' %}active{% endifequal %}">
+                                <li class="{% ifequal request.path|slice:'1:9'  'org/org_' %}active{% endifequal %}">
                                     <a href="{% url 'organization:org_list' %}">授课机构</a>
                                 </li>
                             </ul>

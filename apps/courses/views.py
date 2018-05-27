@@ -13,7 +13,11 @@ from .models import Course, Lesson, Video
 
 class CoursesListView(View):
     def get(self, request):
-        all_courses = Course.objects.all()
+        keywords = request.GET.get('keywords')
+        if not keywords:
+            all_courses = Course.objects.all()
+        else:
+            all_courses = Course.objects.filter(name__contains=keywords)
         hot_courses = Course.objects.order_by("-click_num")[:3]
         sort = request.GET.get("sort", "")
         if sort:

@@ -55,7 +55,7 @@
                     <div class="right">
                         <div class="top">
                             <div class="fl">
-                                <a href=""><h1>{{ teacher.get_hot_course.name }}</h1></a>
+                                <a href="{% url 'course_detail' teacher.get_hot_course.id %}"><h1>{{ teacher.get_hot_course.name }}</h1></a>
                                 <span>发表于：{{ teacher.get_hot_course.add_time }}</span>
                             </div>
                         </div>
