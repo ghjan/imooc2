@@ -9,43 +9,14 @@
             <div class="fl">
                 <div class="imgslide">
                     <ul class="imgs">
-
-                        <li>
-                            <a href="http:/www.davidzhang.xin">
-                                <img width="1200" height="478"
-                                     src="/media/banner/2016/11/57a801860001c34b12000460.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http:/www.davidzhang.xin:8000">
-                                <img width="1200" height="478"
-                                     src="/media/banner/2016/11/57aa86a0000145c512000460.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http:/www.davidzhang.xin:8000">
-                                <img width="1200" height="478"
-                                     src="/media/banner/2016/11/57a801860001c34b12000460_z4Vb8zl.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http:/www.davidzhang.xin:8000">
-                                <img width="1200" height="478"
-                                     src="/media/banner/2016/11/57aa86a0000145c512000460_nMwvoQD.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http:/www.davidzhang.xin:8000">
-                                <img width="1200" height="478"
-                                     src="/media/banner/2016/11/57aa86a0000145c512000460_GXIBATC.jpg"/>
-                            </a>
-                        </li>
-
-
+                        {% for banner in all_banners %}
+                            <li>
+                                <a href="{{ banner.url }}">
+                                    <img width="1200" height="478"
+                                         src="{{ MEDIA_URL }}{{ banner.image }}"/>
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="unslider-arrow prev"></div>
@@ -90,7 +61,7 @@
                 </div>
 
                 <div class="right group_list">
-                    {% for course in all_courses %}
+                    {% for course in courses %}
                         <div class="module1_3 box">
                             <a href="{% url 'course_detail' course.id %}">
                                 <img width="233" height="190" src="{{ MEDIA_URL }}{{ course.image }}"/>
@@ -103,7 +74,8 @@
                                 <span class="fr">学习人数：{{ course.students }}</span>
                             </div>
                             <div class="bottom">
-                                <span class="fl" title="{{ course.course_org.name }}">{{ course.course_org.name }}</span>
+                                <span class="fl"
+                                      title="{{ course.course_org.name }}">{{ course.course_org.name }}</span>
                                 <span class="star fr">{{ course.fav_num }}</span>
                             </div>
                         </div>

@@ -144,7 +144,8 @@ USE_TZ = False  # 是否utc时间（数据库模型）
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'common_static'),
-                    os.path.join(BASE_DIR, 'media'),)
+                    # os.path.join(BASE_DIR, 'media'),
+                    )
 
 # media
 MEDIA_URL = '/media/'  # 这个是在浏览器上访问该上传文件的url的前缀

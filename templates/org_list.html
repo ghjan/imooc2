@@ -147,7 +147,7 @@
                 <dl class="des">
                     <dt class="num fl">{{ forloop.counter }}</dt>
                     <dd>
-                        <a href="/company/2/"><h1>{{ org.name }}</h1></a>
+                        <a href="{% url 'organization:org_detail_homepage' org.id %}"><h1>{{ org.name }}</h1></a>
                         <p>{{ org.city.name }}-{{ org.address }}</p>
                     </dd>
                 </dl>
