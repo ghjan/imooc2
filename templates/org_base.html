@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 {% load staticfiles %}
 <head>
@@ -20,15 +19,13 @@
     {% endblock %}
 </head>
 <body>
-<section class="headerwrap headerwrap2">
+<section class="headerwrap">
     <header>
-        <div class="header2 header">
+        <div class=" header">
             {% block top %}
                 <div class="top">
                     <div class="wp">
-                        <div class="fl">
-                            <p>联系方式：<b>3333333333</b></p>
-                        </div>
+                        <div class="fl"><p>服务电话：<b>33333333</b></p></div>
                         <!--登录后跳转-->
 
                         {% if request.user.is_authenticated %}
@@ -137,8 +134,14 @@
         /**
          * Created by Administrator on 2018/5/26.
          */
-//收藏分享
-//取消收藏
+        //顶部个人中心下拉框
+        $('.header .personal').hover(function () {
+            $('.header .userdetail').stop(true).show();
+        }, function () {
+            $('.header .userdetail').stop(true).hide();
+        });
+        //收藏分享
+        //取消收藏
         function add_fav(current_elem, fav_id, fav_type) {
             $.ajax({
                 cache: false,
@@ -172,20 +175,20 @@
 
         $(function () {
             var $precision = $('.precision'),
-                    score = $precision.attr('data-star-scope'),
-                    option = {
-                        half: true,
-                        path: '/static/images/',
-                        precision: true,
-                        size: 24,
-                        starOff: 'g_star.png',
-                        starOn: 'r_star.png',
-                        starHalf: 'h_star.png',
-                        hints: ['极差', '差', '一般', '好评', '非常满意'],
-                        noRatedMsg: '暂时还未获得评价！',
-                        readOnly: true,
-                        score: score
-                    };
+                score = $precision.attr('data-star-scope'),
+                option = {
+                    half: true,
+                    path: '/static/images/',
+                    precision: true,
+                    size: 24,
+                    starOff: 'g_star.png',
+                    starOn: 'r_star.png',
+                    starHalf: 'h_star.png',
+                    hints: ['极差', '差', '一般', '好评', '非常满意'],
+                    noRatedMsg: '暂时还未获得评价！',
+                    readOnly: true,
+                    score: score
+                };
             $precision.raty(option);
 
             $('.jsFavBtn').on('click', function () {

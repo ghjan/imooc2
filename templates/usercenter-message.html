@@ -86,7 +86,7 @@
         <ul>
             <li class="active2"><a href="{% url 'usercenterinfo' %}">个人资料</a></li>
             <li ><a href="{% url 'my_course' %}">我的课程</a></li>
-            <li ><a href="usercenter-fav-course.html">我的收藏</a></li>
+            <li ><a href="{% url 'my_fav' 1 %}">我的收藏</a></li>
             <li >
                 <a href="usercenter-message.html" style="position: relative;">
                     我的消息
@@ -304,7 +304,7 @@
 <script src="../js/deco-user.js"></script>
 
 <script type="text/javascript">
-    $('.jsDeleteFav_course').on('click', function(){
+    $('.jsDeleteFav').on('click', function(){
         var _this = $(this),
             favid = _this.attr('data-favid');
         alert(favid)
@@ -324,7 +324,7 @@
             });
     });
 
-    $('.jsDeleteFav_teacher').on('click', function(){
+    $('.jsDeleteFav').on('click', function(){
             var _this = $(this),
                 favid = _this.attr('data-favid');
             $.ajax({
@@ -344,7 +344,7 @@
         });
 
 
-    $('.jsDeleteFav_org').on('click', function(){
+    $('.jsDeleteFav').on('click', function(){
             var _this = $(this),
                 favid = _this.attr('data-favid');
             $.ajax({

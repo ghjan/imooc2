@@ -113,7 +113,7 @@
                 <ul>
                     <li class="active2"><a href="{% url 'usercenterinfo' %}">个人资料</a></li>
                     <li><a href="{% url 'my_course' %}">我的课程</a></li>
-                    <li><a href="usercenter-fav-course.html">我的收藏</a></li>
+                    <li><a href="{% url 'my_fav' 1 %}">我的收藏</a></li>
                     <li>
                         <a href="usercenter-message.html" style="position: relative;">
                             我的消息
@@ -310,55 +310,16 @@
     <script src="{% static 'js/validate.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/deco-user.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
-        $('.jsDeleteFav_course').on('click', function () {
+        $('.jsDeleteFav').on('click', function () {
             var _this = $(this),
-                favid = _this.attr('data-favid');
-            alert(favid)
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "{% url 'organization:add_fav' %}",
-                data: {
-                    fav_type: 1,
-                    fav_id: favid,
-                    csrfmiddlewaretoken: "{{ csrf_token }}"
-                },
-                async: true,
-                success: function (data) {
-                    Dml.fun.winReload();
-                }
-            });
-        });
-
-        $('.jsDeleteFav_teacher').on('click', function () {
-            var _this = $(this),
+                favtype = _this.attr('data-favtype'),
                 favid = _this.attr('data-favid');
             $.ajax({
                 cache: false,
                 type: "POST",
                 url: "{% url 'organization:add_fav' %}",
                 data: {
-                    fav_type: 3,
-                    fav_id: favid,
-                    csrfmiddlewaretoken: "{{ csrf_token }}"
-                },
-                async: true,
-                success: function (data) {
-                    Dml.fun.winReload();
-                }
-            });
-        });
-
-
-        $('.jsDeleteFav_org').on('click', function () {
-            var _this = $(this),
-                favid = _this.attr('data-favid');
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "{% url 'organization:add_fav' %}",
-                data: {
-                    fav_type: 2,
+                    fav_type: favtype,
                     fav_id: favid,
                     csrfmiddlewaretoken: "{{ csrf_token }}"
                 },

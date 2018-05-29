@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic.base import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from utils.util import FAV_CLASSES, FAV_TEMPLATES
 from utils.email_send import send_register_email
 from utils.views import LoginRequiredMixin
 from operation.models import UserCourse, UserFavorite
@@ -109,14 +110,11 @@ class MyFavView(LoginRequiredMixin, View):
         ufs = UserFavorite.objects.filter(user=request.user, fav_type=fav_type)
         data = []
         if ufs:
-            ids = [uf['fav_id'] for uf in ufs]
-            if fav_type == 1:
-                data = Course.objects.filter(id__in=ids)
-            elif fav_type == 2:
-                data = CourseOrg.objects.filter(id__in=ids)
-            elif fav_type == 3:
-                data = Teacher.objects.filter(id__in=ids)
-        return render(request, 'usercenter_fav_course.html', {"data": data, "fav_type": fav_type})
+            ids = [uf.fav_id for uf in ufs]
+            class_ = FAV_CLASSES.get(int(fav_type))
+            data = class_.objects.filter(id__in=ids)
+        template_file = FAV_TEMPLATES.get(int(fav_type)) or 'usercenter_fav_course.html'
+        return render(request, template_file, {"data": data, "fav_type": fav_type})
 
 
 class ImageUploadView(LoginRequiredMixin, View):

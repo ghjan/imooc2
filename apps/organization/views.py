@@ -6,9 +6,10 @@ from django.http import HttpResponse
 from django.views.generic.base import View
 from django.db.models import Q
 
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from pure_pagination import Paginator, PageNotAnInteger
+
+from utils.util import change_fav_num
 from operation.models import UserFavorite
-from courses.models import Course
 from .models import CityDict, CourseOrg, Teacher
 
 
@@ -181,7 +182,7 @@ class TeacherListView(View):
 class TeacherDetailView(View):
     def get(self, request, teacher_id):
         hot_teachers = Teacher.objects.order_by("-click_num")[:3]
-        data = {'hot_teachers': hot_teachers,}
+        data = {'hot_teachers': hot_teachers, }
         try:
             teacher = Teacher.objects.get(id=int(teacher_id))
             if teacher:
@@ -231,7 +232,7 @@ class AddFavView(View):
         if exist_records:
             # 已经存在，表示取消收藏
             exist_records.delete()
-            _change_fav_num(fav_id, fav_type, increase=False)
+            change_fav_num(fav_id, fav_type, increase=False)
 
             return HttpResponse(json.dumps({'status': 'success', 'msg': '已取消收藏'}),
                                 content_type='application/json')
@@ -242,20 +243,8 @@ class AddFavView(View):
                 user_fav.fav_id = fav_id
                 user_fav.user = request.user
                 user_fav.save()
-                _change_fav_num(fav_id, fav_type, increase=True)
+                change_fav_num(fav_id, fav_type, increase=True)
                 return HttpResponse(json.dumps({'status': 'success', 'msg': '已收藏'}),
                                     content_type='application/json')
             else:
                 return HttpResponse(json.dumps({'status': 'fail', 'msg': '收藏出错'}), content_type='application/json')
-
-
-FAV_CLASSES = {1: Course, 2: CourseOrg, 3: Teacher}
-
-
-def _change_fav_num(fav_id, fav_type, increase=True):
-    class_ = FAV_CLASSES.get(int(fav_type))
-    obj = class_.objects.get(id=int(fav_id))
-    obj.fav_num = (obj.fav_num + 1) if increase else (obj.fav_num - 1)
-    if obj.fav_num < 0:
-        obj.fav_num = 0
-    obj.save()
