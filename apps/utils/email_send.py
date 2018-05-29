@@ -11,7 +11,7 @@ from django.conf import settings
 
 def send_register_email(email, send_type="register"):
     email_record = EmailVerifyRecord()
-    code = generate_random_str(16)
+    code = generate_random_str(16 if send_type != "update_email" else 4)
     email_record.code = code
     email_record.email = email
     email_record.send_type = send_type
@@ -26,6 +26,12 @@ def send_register_email(email, send_type="register"):
     elif send_type == "forget":
         email_title = "慕雪在线网密码重置链接"
         email_body = "请点击下列链接密码重置：http://www.davidzhang.xin:8000/reset/{0}".format(code)
+        send_status = send_mail(email_title, email_body, settings.EMAIL_FROM, [email])
+        if send_status:
+            pass
+    elif send_type == "update_email":
+        email_title = "慕雪在线网修改邮箱验证码链接"
+        email_body = "你的邮箱验证码为：{0}".format(code)
         send_status = send_mail(email_title, email_body, settings.EMAIL_FROM, [email])
         if send_status:
             pass

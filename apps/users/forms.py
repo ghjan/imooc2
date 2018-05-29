@@ -34,3 +34,14 @@ class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['image']
+
+
+class UserEmailForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['email']
+
+class UserInfoForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nick_name', 'gender', 'birday', 'address', 'mobile']

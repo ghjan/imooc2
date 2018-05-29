@@ -9,7 +9,10 @@ from django.views.generic.base import View
 from django.http import HttpResponse
 from utils.email_send import send_register_email
 from utils.views import LoginRequiredMixin
-from .forms import LoginForm, RegisterForm, ForgetForm, SetpwdForm, ImageUploadForm
+from operation.models import UserCourse, UserFavorite
+from courses.models import Course
+from organization.models import CourseOrg, Teacher
+from .forms import LoginForm, RegisterForm, ForgetForm, SetpwdForm, ImageUploadForm, UserEmailForm, UserInfoForm
 from .models import UserProfile, EmailVerifyRecord
 
 
@@ -78,6 +81,41 @@ class UsercenterView(LoginRequiredMixin, View):
         return render(request, 'usercenter_info.html', {
         })
 
+    def post(self, request):
+        user_form = UserInfoForm(request.POST, instance=request.user)
+        if user_form.is_valid():
+            user_form.save()
+            return HttpResponse(json.dumps({'status': 'success'}), content_type='application/json')
+        else:
+            data = {'status': 'fail', 'msg': u'保存失败'}
+            data.update(user_form.errors)
+            return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class MyCourseView(LoginRequiredMixin, View):
+    def get(self, request):
+        user_courses = UserCourse.objects.only('course').filter(user=request.user)
+        courses = []
+        if user_courses:
+            courses = [uc.course for uc in user_courses]
+        return render(request, 'usercenter_mycourse.html', {"courses": courses,
+                                                            })
+
+
+class MyFavView(LoginRequiredMixin, View):
+    def get(self, request, fav_type):
+        ufs = UserFavorite.objects.filter(user=request.user, fav_type=fav_type)
+        data = []
+        if ufs:
+            ids = [uf['fav_id'] for uf in ufs]
+            if fav_type == 1:
+                data = Course.objects.filter(id__in=ids)
+            elif fav_type == 2:
+                data = CourseOrg.objects.filter(id__in=ids)
+            elif fav_type == 3:
+                data = Teacher.objects.filter(id__in=ids)
+        return render(request, 'usercenter_fav_course.html', {"data": data, "fav_type": fav_type})
+
 
 class ImageUploadView(LoginRequiredMixin, View):
     def post(self, request):
@@ -119,6 +157,7 @@ class SetpwdView(View):
     """
     重置密码
     """
+
     def post(self, request):
         setpwd_form = SetpwdForm(request.POST)
         if setpwd_form.is_valid():
@@ -144,6 +183,7 @@ class UpdatepwdView(View):
     """
     用户个人中心修改密码
     """
+
     def post(self, request):
         setpwd_form = SetpwdForm(request.POST)
         if setpwd_form.is_valid():
@@ -183,3 +223,55 @@ class ForgetpwdView(View):
             return render(request, "send_success.html")
         else:
             return render(request, "forgetpwd.html", {'forget_form': forget_form})
+
+
+class SendEmailCodeView(LoginRequiredMixin, View):
+    '''
+    发送邮箱验证码
+    '''
+
+    def get(self, request):
+        email = request.GET.get('email')
+        if email:
+            if UserProfile.objects.filter(email=email):
+                return HttpResponse(json.dumps({'status': 'fail', 'msg': '邮箱已经存在'}),
+                                    content_type='application/json')
+            send_register_email(email, "update_email")
+            return HttpResponse(json.dumps({'status': 'success'}), content_type='application/json')
+        return HttpResponse(json.dumps({'status': 'fail', 'msg': '请提供邮箱'}), content_type='application/json')
+
+
+class UpdateEmailView(View):
+    '''
+    更新验证码
+    '''
+
+    def post(self, request):
+        email = request.POST.get('email')
+        code = request.POST.get('code')
+        if email and code:
+            if UserProfile.objects.filter(email=email):
+                return HttpResponse(json.dumps({'status': 'fail', 'msg': '你提供的邮箱已经登记过，请重新选择一个邮箱地址'}),
+                                    content_type='application/json')
+            try:
+                evr = EmailVerifyRecord.objects.get(code=code, email=email)
+                if not evr:
+                    return HttpResponse(json.dumps({'status': 'fail', 'msg': '验证码不合法,请重新核对验证码'}),
+                                        content_type='application/json')
+                email_form = UserEmailForm(request.POST, instance=request.user)
+                if email_form.is_valid():
+                    request.user.save()
+                    return HttpResponse(json.dumps({'status': 'success'}), content_type='application/json')
+                else:
+                    data = {
+                        "status": "fail",
+                    }
+                    data.update(email_form.errors)
+                    return HttpResponse(json.dumps(data), content_type='application/json')
+            except:
+                pass
+            return HttpResponse(json.dumps({'status': 'fail', 'msg': '更新邮箱失败'}),
+                                content_type='application/json')
+
+        else:
+            return HttpResponse(json.dumps({'status': 'fail', 'msg': '请提供正确的邮箱和验证码'}), content_type='application/json')

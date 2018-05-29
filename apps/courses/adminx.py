@@ -9,8 +9,8 @@ from .models import Course, Lesson, Video, CourseResource
 class CourseAdmin(object):
     # 后台列表显示列
     list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_num', 'click_num', 'teacher',
-                    'add_time',
-                    'course_org']
+                    'course_org', 'category', 'tag', 'add_time',
+                    ]
     # 后台列表查询条件
     search_fields = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_num', 'teacher__name',
                      'click_num',

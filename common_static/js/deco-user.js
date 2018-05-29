@@ -170,11 +170,20 @@ $(function(){
             success: function(data) {
                 if(data.nick_name){
                     _showValidateError($('#nick_name'), data.nick_name);
-                }else if(data.birday){
+                }
+                if(data.birday){
                    _showValidateError($('#birth_day'), data.birday);
-                }else if(data.address){
+                }
+                if(data.gender){
+                   _showValidateError($('#gender'), data.gender);
+                 }
+                if(data.address){
                    _showValidateError($('#address'), data.address);
-                }else if(data.status == "failure"){
+                }
+                 if(data.mobile){
+                   _showValidateError($('#mobile'), data.mobile);
+                }
+                if(data.status == "fail"){
                      Dml.fun.showTipsDialog({
                         title: '保存失败',
                         h2: data.msg
