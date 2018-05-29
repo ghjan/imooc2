@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 from users.views import LoginView, RegisterView, LogoutView, UsercenterView, ActivateUserView, ForgetpwdView, \
-    ResetView, SetpwdView, ImageUploadView, UpdatepwdView, SendEmailCodeView, UpdateEmailView, MyCourseView, MyFavView
+    ResetView, SetpwdView, ImageUploadView, UpdatepwdView, SendEmailCodeView, UpdateEmailView, MyCourseView, MyFavView, \
+    MyMessageView
 
 urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name="login"),
@@ -15,6 +16,7 @@ urlpatterns = [
     url(r'^info/$', UsercenterView.as_view(), name="usercenterinfo"),
     url(r'^course/$', MyCourseView.as_view(), name="my_course"),
     url(r'^fav/(?P<fav_type>\w+)/$', MyFavView.as_view(), name="my_fav"),
+    url(r'^message/$', MyMessageView.as_view(), name="my_message"),
     url(r'^image/upload/$', ImageUploadView.as_view(), name="image_upload"),
     url(r'^sendemail_code/$', SendEmailCodeView.as_view(), name="send_email_code"),
     url(r'^update_email/$', UpdateEmailView.as_view(), name="update_email"),

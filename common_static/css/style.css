@@ -528,7 +528,7 @@ caption {
     color: #fff;
 }
 
-.header .top .msg-num {
+.header .top .msg-num, .header .top .person {
     float: right;
     margin-right: 120px;
     height: 38px;

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 # 密码 加密
 from django.contrib.auth.hashers import make_password
@@ -11,9 +12,7 @@ from django.core.urlresolvers import reverse
 from utils.util import FAV_CLASSES, FAV_TEMPLATES
 from utils.email_send import send_register_email
 from utils.views import LoginRequiredMixin
-from operation.models import UserCourse, UserFavorite
-from courses.models import Course
-from organization.models import CourseOrg, Teacher
+from operation.models import UserCourse, UserFavorite, UserMessage
 from .forms import LoginForm, RegisterForm, ForgetForm, SetpwdForm, ImageUploadForm, UserEmailForm, UserInfoForm
 from .models import UserProfile, EmailVerifyRecord
 
@@ -72,6 +71,12 @@ class RegisterView(View):
             # 对密码加密
             user_profile.password = make_password(pass_word)
             user_profile.save()  # 保存到数据库
+
+            # welcome message
+            user_message = UserMessage()
+            user_message.user = user_profile.id
+            user_message.message = "欢迎到慕课网"
+            user_message.save()
             # 发送激活email
             send_register_email(email, "register")
             return render(request, "login.html")
@@ -275,3 +280,21 @@ class UpdateEmailView(View):
 
         else:
             return HttpResponse(json.dumps({'status': 'fail', 'msg': '请提供正确的邮箱和验证码'}), content_type='application/json')
+
+
+class MyMessageView(LoginRequiredMixin, View):
+    def get(self, request):
+        all_messages = UserMessage.objects.filter(user=request.user.id)
+
+        paginator = Paginator(all_messages, 3, request=request)
+        try:
+            page = request.GET.get('page', 1)
+        except:
+            page = 1
+        try:
+            messages = paginator.page(page)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            messages = paginator.page(paginator.num_pages)
+
+        return render(request, "usercenter_message.html", {"all_messages": messages})

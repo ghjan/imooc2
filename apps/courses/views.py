@@ -29,7 +29,6 @@ class CoursesListView(View):
             elif sort == "hot":
                 all_courses = all_courses.order_by('-click_num')
 
-        # paginator = Paginator(all_courses, 3, request=request)
         paginator = Paginator(all_courses, 3, request=request)
         try:
             page = request.GET.get('page', 1)
