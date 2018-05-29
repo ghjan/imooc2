@@ -293,6 +293,11 @@ class MyMessageView(LoginRequiredMixin, View):
             page = 1
         try:
             messages = paginator.page(page)
+            # 已读
+            for m in messages.object_list:
+                if not m.has_read:
+                    m.has_read = True
+                    m.save()
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             messages = paginator.page(paginator.num_pages)
