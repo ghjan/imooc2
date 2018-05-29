@@ -32,7 +32,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'libs'))
 SECRET_KEY = '-3b$%7hb72t34xbe@m3h%y_0jt#*ob*(f(7kw*#6bh(s*av661'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.davidzhang.xin', '106.14.202.116', 'localhost', '0.0.0.0']
 
