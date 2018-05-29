@@ -6,7 +6,8 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic.base import View
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from utils.email_send import send_register_email
 from utils.views import LoginRequiredMixin
 from operation.models import UserCourse, UserFavorite
@@ -47,7 +48,8 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return render(request, 'index.html', {'username': '', 'image': ''})
+        # render是渲染变量到模板中, 而redirect是HTTP中的1个跳转的函数, 一般会生成302状态码
+        return HttpResponseRedirect(reverse("index"))
 
 
 class RegisterView(View):
