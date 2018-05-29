@@ -2,6 +2,8 @@
 from django.conf.urls import url, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
+
 import xadmin
 
 xadmin.autodiscover()
@@ -24,7 +26,13 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    # urlpatterns.extend([url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
-    #                     # url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-    #                     ])
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns.extend([
+        url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
+        url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    ])
+
+# 全局404, 500页面配置
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'

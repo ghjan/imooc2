@@ -9,6 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic.base import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+
 from utils.util import FAV_CLASSES, FAV_TEMPLATES
 from utils.email_send import send_register_email
 from utils.views import LoginRequiredMixin
@@ -303,3 +305,15 @@ class MyMessageView(LoginRequiredMixin, View):
             messages = paginator.page(paginator.num_pages)
 
         return render(request, "usercenter_message.html", {"all_messages": messages})
+
+
+def page_not_found(request):
+    response = render_to_response('404.html', {})
+    response.status_code = 404
+    return response
+
+
+def page_error(request):
+    response = render_to_response('500.html', {})
+    response.status_code = 500
+    return response
