@@ -34,9 +34,9 @@ class LoginView(View):
                         up = UserProfile.objects.get(email=username)
                     else:
                         up = UserProfile.objects.get(username=username)
-
-                    return render(request, 'index.html',
-                                  {'username': username, 'image': up.image.url})
+                    return HttpResponseRedirect(reverse('index'))
+                    # return render(request, 'index.html',
+                    #               {'username': username, 'image': up.image.url})
                 else:
                     return render(request, 'login.html', {"msg": "用户未激活", "login_form": login_form})
             else:

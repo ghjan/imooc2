@@ -22,6 +22,7 @@ class CityDict(models.Model):
 class CourseOrg(models.Model):
     name = models.CharField(max_length=50, verbose_name=u"机构名称")
     desc = models.TextField(verbose_name=u"机构描述")
+    tag = models.CharField(default=u'全国知名', max_length=20, verbose_name=u'标签')
     category = models.CharField(choices=(("pxjg", "培训机构"), ("gr", "个人"), ("gx", "高校")), max_length=4, default="gx")
     click_num = models.IntegerField(default=0, verbose_name=u"点击数")
     fav_num = models.IntegerField(default=0, verbose_name=u"收藏人数")

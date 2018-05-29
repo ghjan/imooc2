@@ -95,7 +95,7 @@
                 <div class="right butler-company-box">
                     <div class="head">
                         <h1>{{ teacher.org.name }}</h1>
-                        <p>知名高校，权威教学</p>
+                        <p>{{ teacher.org.tag }}</p>
                     </div>
                     <div class="pic">
                         <a href="{% url 'organization:org_detail_homepage' teacher.org.id %}">

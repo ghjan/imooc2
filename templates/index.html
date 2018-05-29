@@ -114,13 +114,13 @@
                 <div class="right">
                     <ul>
                         {% for org in all_orgs %}
-                            <li class="">
-                                <a href="">
+                            <li class="{% if forloop.counter|divisibleby:5 %}five{% endif %}">
+                                <a href="{% url 'organization:org_detail_homepage' org.id %}">
                                     <div class="company">
                                         <img width="184" height="100" src="{{ MEDIA_URL }}{{ org.image }}"/>
                                         <div class="score">
                                             <div class="circle">
-                                                <h2>全国知名</h2>
+                                                <h2>{{ org.tag }}</h2>
                                             </div>
                                         </div>
                                     </div>

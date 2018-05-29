@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^$', HomepageView.as_view(), name="index"),
     url(r'^xadmin/', xadmin.site.urls, name='xadmin'),
     url(r'^captcha/', include('captcha.urls')),
-    url(r'^course/', include('courses.urls')),  #课程相关
+    url(r'^course/', include('courses.urls')),  # 课程相关
     url(r'^users/', include('users.urls')),
     url(r'^org/', include('organization.urls', namespace="organization")),
     url(r'^operation/', include('operation.urls', namespace="operation")),
