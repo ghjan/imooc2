@@ -19,7 +19,7 @@ xadmin.site.register(xviews.BaseAdminView, BaseSetting)
 class GlobalSettings(object):
     site_title = "慕雪后台管理系统"
     site_footer = "慕雪在线网"
-    menu_style = "accordion"  #默认每个app收起来
+    menu_style = "accordion"  # 默认每个app收起来
 
 
 xadmin.site.register(xviews.CommAdminView, GlobalSettings)
@@ -32,6 +32,7 @@ class EmailVerifyRecordAdmin(object):
     search_fields = ['code', 'email', 'send_type']
     # 后台列表通过时间查询
     list_filter = ['code', 'email', 'send_type', 'send_time']
+    model_icon = 'fa fa-user'
 
 
 class BannerAdmin(object):
@@ -41,6 +42,7 @@ class BannerAdmin(object):
     search_fields = ['index', 'title', 'image', 'url']
     # 后台列表通过时间查询
     list_filter = ['index', 'title', 'image', 'url', 'add_time']
+    model_icon = 'fa fa-flag'
 
 
 xadmin.site.register(EmailVerifyRecord, EmailVerifyRecordAdmin)

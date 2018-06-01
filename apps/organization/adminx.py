@@ -12,6 +12,7 @@ class CityDictAdmin(object):
     search_fields = ['name', 'desc']
     # 后台列表通过时间查询
     list_filter = ['name', 'desc', 'add_time']
+    model_icon = 'fa fa-building'
 
 
 class CourseOrgAdmin(object):
@@ -21,6 +22,7 @@ class CourseOrgAdmin(object):
     search_fields = ['name', 'desc', 'address', 'city__name', 'fav_num', 'click_num']
     # 后台列表通过时间查询
     list_filter = ['name', 'desc', 'address', 'city__name', 'fav_num', 'click_num', 'add_time']
+    model_icon = 'fa fa-university'
 
 
 class TeacherAdmin(object):
@@ -32,8 +34,9 @@ class TeacherAdmin(object):
     # 后台列表通过时间查询
     list_filter = ['name', 'org', 'work_years', 'work_company', 'work_position', 'points', 'fav_num', 'click_num',
                    'add_time']
+    model_icon = 'fas fa-chalkboard-teacher'
 
 
-xadmin.site.register(CityDict, CityDictAdmin)
 xadmin.site.register(CourseOrg, CourseOrgAdmin)
+xadmin.site.register(CityDict, CityDictAdmin)
 xadmin.site.register(Teacher, TeacherAdmin)

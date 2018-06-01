@@ -14,6 +14,7 @@ class UserAskAdmin(object):
     search_fields = ['name', 'mobile', 'course_name']
     # 后台列表通过时间查询
     list_filter = ['name', 'mobile', 'course_name', 'add_time']
+    model_icon = 'fa fa-question'
 
 
 class CourseCommentsAdmin(object):
@@ -23,6 +24,7 @@ class CourseCommentsAdmin(object):
     search_fields = ['user__username', 'course', 'comments']
     # 后台列表通过时间查询
     list_filter = ['user__username', 'course', 'comments', 'add_time']
+    model_icon = 'fa fa-comments'
 
 
 class UserFavoriteAdmin(object):
@@ -32,6 +34,7 @@ class UserFavoriteAdmin(object):
     search_fields = ['user__username', 'fav_id', 'fav_type', ]
     # 后台列表通过时间查询
     list_filter = ['user__username', 'fav_id', 'fav_type', 'add_time']
+    model_icon = 'fa fa-heart'
 
 
 class UserMessageAdmin(object):
@@ -41,6 +44,7 @@ class UserMessageAdmin(object):
     search_fields = ['user', 'message', 'has_read']
     # 后台列表通过时间查询
     list_filter = ['user', 'message', 'has_read', 'add_time']
+    model_icon = 'fa fa-envelope'
 
 
 class UserCourseAdmin(object):
@@ -50,6 +54,7 @@ class UserCourseAdmin(object):
     search_fields = ['user__username', 'course__name', ]
     # 后台列表通过时间查询
     list_filter = ['user__username', 'course__name', 'add_time']
+    model_icon = 'fa fa-book'
 
 
 xadmin.site.register(UserAsk, UserAskAdmin)
