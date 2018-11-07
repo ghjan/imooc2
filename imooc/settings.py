@@ -167,3 +167,8 @@ PAGINATION_SETTINGS = {
 
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 }
+
+try:
+    from .settings_local import *
+except Exception as e:
+    print(e)
