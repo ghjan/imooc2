@@ -17,8 +17,6 @@ services:
         image: cajan2/imooc:2.0
         volumes:
             - /data/www/imooc:/data/www/imooc
-            - /data/media/imooc/static:/data/www/imooc/static_root
-            - /data/media/imooc/media:/data/www/imooc/media
             - /data/www/imooc/deployment/gunicorn/conf.d/gunicorn.conf:/etc/gunicorn.conf
             - /data/www/imooc/logs/django/:/var/log/django/
             - /data/www/imooc/logs/gunicorn/:/var/log/gunicorn/
