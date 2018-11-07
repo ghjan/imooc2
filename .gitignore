@@ -11,4 +11,5 @@ media/*
 static_root/*
 work_run/*
 logs/*
+settings_local.py
 
