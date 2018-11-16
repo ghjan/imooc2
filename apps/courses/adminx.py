@@ -18,7 +18,9 @@ class CourseResourceInline(object):
 
 class CourseAdmin(object):
     # 后台列表显示列
-    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_num', 'click_num', 'teacher',
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'get_zj_nums', 'go_to', 'fav_num',
+                    'click_num',
+                    'teacher',
                     'course_org', 'category', 'tag', 'add_time',
                     ]
     # 后台列表查询条件
@@ -32,6 +34,7 @@ class CourseAdmin(object):
     model_icon = 'fa fa-book'
     ordering = ['-click_num']
     readonly_fields = ('click_num',)
+    list_editable = ('degree', 'desc')  # 直接在列表页面进行编辑
     exclude = ('fav_num',)
     inlines = [LessonInline, CourseResourceInline]
 
@@ -39,6 +42,15 @@ class CourseAdmin(object):
         qs = super(CourseAdmin, self).queryset()
         qs = qs.filter(is_banner=False)
         return qs
+
+    def save_models(self):
+        # 保存课程的时候，课程机构重新统计当前的课程数量
+        obj = self.new_obj
+        obj.save()
+        if obj.course_org:
+            course_org = obj.course_org
+            course_org.course_nums = Course.objects.filter(course_org=course_org)
+            course_org.save()
 
 
 class BannerCourseAdmin(object):

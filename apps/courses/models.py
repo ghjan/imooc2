@@ -34,8 +34,24 @@ class Course(models.Model):
     def __str__(self):
         return self.__unicode__()
 
+    def get_zj_nums(self):
+        # 获取课程章节数
+        return self.lesson_set.all().count()
+
+    get_zj_nums.short_description = '章节数'
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe("<a href='http://www.projectedu.com'>跳转</a>")
+
+    go_to.short_description = '跳转'
+
     def get_learn_users(self):
         return self.usercourse_set.all()[:5]
+
+    def get_course_lesson(self):
+        # 获取课程所有章节
+        return self.lesson_set.all()
 
 
 class BannerCourse(Course):
