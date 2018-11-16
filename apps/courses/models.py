@@ -38,6 +38,13 @@ class Course(models.Model):
         return self.usercourse_set.all()[:5]
 
 
+class BannerCourse(Course):
+    class Meta:
+        verbose_name = u"轮播课程"
+        verbose_name_plural = verbose_name
+        proxy = True  # 这样不会再生成一张表
+
+
 # 章节
 class Lesson(models.Model):
     course = models.ForeignKey(Course, verbose_name=u"课程")

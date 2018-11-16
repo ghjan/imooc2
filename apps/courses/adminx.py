@@ -3,7 +3,17 @@ __author__ = 'david'
 __date__ = '2018/5/20 10:31'
 
 import xadmin
-from .models import Course, Lesson, Video, CourseResource
+from .models import Course, Lesson, Video, CourseResource, BannerCourse
+
+
+class LessonInline(object):
+    model = Lesson
+    extra = 0
+
+
+class CourseResourceInline(object):
+    model = CourseResource
+    extra = 0
 
 
 class CourseAdmin(object):
@@ -23,6 +33,37 @@ class CourseAdmin(object):
     ordering = ['-click_num']
     readonly_fields = ('click_num',)
     exclude = ('fav_num',)
+    inlines = [LessonInline, CourseResourceInline]
+
+    def queryset(self):
+        qs = super(CourseAdmin, self).queryset()
+        qs = qs.filter(is_banner=False)
+        return qs
+
+
+class BannerCourseAdmin(object):
+    # 后台列表显示列
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_num', 'click_num', 'teacher',
+                    'course_org', 'category', 'tag', 'add_time',
+                    ]
+    # 后台列表查询条件
+    search_fields = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_num', 'teacher__name',
+                     'click_num',
+                     'course_org__name']
+    # 后台列表通过时间查询
+    list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_num', 'click_num',
+                   'teacher__name', 'add_time',
+                   'course_org__name']
+    model_icon = 'fa fa-book'
+    ordering = ['-click_num']
+    readonly_fields = ('click_num',)
+    exclude = ('fav_num',)
+    inlines = [LessonInline, CourseResourceInline]
+
+    def queryset(self):
+        qs = super(BannerCourseAdmin, self).queryset()
+        qs = qs.filter(is_banner=True)
+        return qs
 
 
 class LessonAdmin(object):
@@ -55,6 +96,7 @@ class CourseResourceAdmin(object):
 
 
 xadmin.site.register(Course, CourseAdmin)
+xadmin.site.register(BannerCourse, BannerCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
