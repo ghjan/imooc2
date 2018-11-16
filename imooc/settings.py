@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
     'pure_pagination',
+    'DjangoUeditor',
 
     "users",
     "courses",

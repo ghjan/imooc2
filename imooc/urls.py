@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^users/', include('users.urls')),
     url(r'^org/', include('organization.urls', namespace="organization")),
     url(r'^operation/', include('operation.urls', namespace="operation")),
+    # 富文本编辑器相关url
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
 ]
 
 if settings.DEBUG:
