@@ -20,6 +20,9 @@ class CourseAdmin(object):
                    'teacher__name', 'add_time',
                    'course_org__name']
     model_icon = 'fa fa-book'
+    ordering = ['-click_num']
+    readonly_fields = ('click_num',)
+    exclude = ('fav_num',)
 
 
 class LessonAdmin(object):
@@ -31,6 +34,7 @@ class LessonAdmin(object):
     list_filter = ['course__name', 'name', 'add_time']
     model_icon = 'fa fa-bars'
 
+
 class VideoAdmin(object):
     # 后台列表显示列
     list_display = ['lesson', 'name', 'url', 'add_time']
@@ -39,6 +43,7 @@ class VideoAdmin(object):
     # 后台列表通过时间查询
     list_filter = ['lesson__name', 'name', 'url', 'add_time']
     model_icon = 'fa fa-file-video-o'
+
 
 class CourseResourceAdmin(object):
     # 后台列表显示列

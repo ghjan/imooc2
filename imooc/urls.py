@@ -6,11 +6,12 @@ from django.views.static import serve
 
 import xadmin
 
+from imooc.views import HomepageView
+
 xadmin.autodiscover()
 
 # version模块自动注册需要版本控制的 Model
 from xadmin.plugins import xversion
-from views import HomepageView
 
 xversion.register_models()
 

@@ -23,6 +23,7 @@ class CourseOrgAdmin(object):
     # 后台列表通过时间查询
     list_filter = ['name', 'desc', 'address', 'city__name', 'fav_num', 'click_num', 'add_time']
     model_icon = 'fa fa-university'
+    relfield_style = 'fk-ajax'
 
 
 class TeacherAdmin(object):

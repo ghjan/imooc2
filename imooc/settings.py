@@ -37,8 +37,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['www.davidzhang.xin', '106.14.202.116', 'localhost', '0.0.0.0']
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'users.authentication.EmailAuthBackend',
+    'users.authentication.CustomBackend',  # 支持用户名/邮箱/手机号码登录
 )
 
 # Application definition

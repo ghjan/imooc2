@@ -47,6 +47,25 @@ class LoginView(View):
             return render(request, 'login.html', {"msg": "", "login_form": login_form})
 
 
+# sql注入演示
+class LoginUnsafeView(View):
+    def get(self, request):
+        return render(request, 'login.html', {})
+
+    def post(self, request):
+        username = request.POST.get('username', "")
+        password = request.POST.get('password'"")
+        # 不再使用django的 orm，因为已经做了sql注入防护
+        import pymysql
+        conn = pymysql.connect(host='127.0.0.1', user='root', password='123456', db='imooc', charset='utf-8')
+        cursor = conn.cursor()
+        sql_select = "select * from users_userprofile where email={0} and password={1}".format(username, password)
+        result = cursor.execute(sql_select)
+        for row in cursor.fetchall():
+            # 查询到了用户
+            pass
+
+
 class LogoutView(View):
     def get(self, request):
         logout(request)
