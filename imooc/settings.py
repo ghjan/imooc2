@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'reversion',
     'pure_pagination',
     'DjangoUeditor',
+    'excel',
 
     "users",
     "courses",
