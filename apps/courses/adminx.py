@@ -37,6 +37,7 @@ class CourseAdmin(object):
     list_editable = ('degree', 'desc')  # 直接在列表页面进行编辑
     exclude = ('fav_num',)
     inlines = [LessonInline, CourseResourceInline]
+    style_fields = {"detail": "ueditor"}
 
     def queryset(self):
         qs = super(CourseAdmin, self).queryset()
