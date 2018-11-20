@@ -7,7 +7,7 @@ RUN mkdir -p /data/www/imooc \
 WORKDIR /data/www/imooc
 COPY requirements.txt /data/www/imooc
 RUN  pip install -i http://pypi.douban.com/simple/ -r requirements.txt --trusted-host pypi.douban.com
-#RUN pip install git+git://github.com/sshwsfc/xadmin.git
+RUN pip install git+git://github.com/twz915/DjangoUeditor3.git
 WORKDIR /data/www/imooc/
 
 git@github.com:twz915/DjangoUeditor3.git

@@ -12,9 +12,9 @@ services:
         command: bash -c "redis-server /etc/redis/redis.conf"
         expose:
             - "6379"
-        container_name: server_redis
+        container_name: imooc2_redis
     imooc_service:
-        image: cajan2/imooc:2.0
+        image: cajan2/imooc:3.0
         volumes:
             - /data/www/imooc:/data/www/imooc
             - /data/www/imooc/deployment/gunicorn/conf.d/gunicorn.conf:/etc/gunicorn.conf
@@ -33,7 +33,7 @@ services:
             - CACHE_CS_HOST=imooc_redis
             - C_FORCE_ROOT=1
             - BROKER_HOST=imooc_redis
-        container_name: server_gunicorn
+        container_name: imooc2_gunicorn
 
     imooc_nginx:
         image: daocloud.io/nginx
@@ -50,5 +50,5 @@ services:
             - "80:80"
         environment:
             - TZ=Asia/Shanghai
-        container_name: server_nginx
+        container_name: imooc2_nginx
 
