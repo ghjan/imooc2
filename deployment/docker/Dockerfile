@@ -10,3 +10,4 @@ RUN  pip install -i http://pypi.douban.com/simple/ -r requirements.txt --trusted
 #RUN pip install git+git://github.com/sshwsfc/xadmin.git
 WORKDIR /data/www/imooc/
 
+git@github.com:twz915/DjangoUeditor3.git

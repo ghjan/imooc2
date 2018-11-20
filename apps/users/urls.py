@@ -2,10 +2,11 @@
 from django.conf.urls import url
 from users.views import LoginView, RegisterView, LogoutView, UsercenterView, ActivateUserView, ForgetpwdView, \
     ResetView, SetpwdView, ImageUploadView, UpdatepwdView, SendEmailCodeView, UpdateEmailView, MyCourseView, MyFavView, \
-    MyMessageView
+    MyMessageView, LoginUnsafeView
 
 urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name="login"),
+    # url(r'^login/$', LoginUnsafeView.as_view(), name="login"),
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^register/$', RegisterView.as_view(), name="register"),
     url(r'^forgetpwd/$', ForgetpwdView.as_view(), name="forgetpwd"),

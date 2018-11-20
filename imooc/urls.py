@@ -6,11 +6,12 @@ from django.views.static import serve
 
 import xadmin
 
+from imooc.views import HomepageView
+
 xadmin.autodiscover()
 
 # version模块自动注册需要版本控制的 Model
 from xadmin.plugins import xversion
-from views import HomepageView
 
 xversion.register_models()
 
@@ -23,6 +24,8 @@ urlpatterns = [
     url(r'^users/', include('users.urls')),
     url(r'^org/', include('organization.urls', namespace="organization")),
     url(r'^operation/', include('operation.urls', namespace="operation")),
+    # 富文本编辑器相关url
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
 ]
 
 if settings.DEBUG:

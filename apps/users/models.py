@@ -1,8 +1,18 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import datetime
+
+from django.core import validators
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.deconstruct import deconstructible
+from django.utils.translation import ugettext_lazy as _
+
+
+@deconstructible
+class MobileValidator(validators.RegexValidator):
+    regex = r'^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$'
+    message = _('Enter a valid mobile number.')
 
 
 class UserProfile(AbstractUser):
@@ -10,7 +20,7 @@ class UserProfile(AbstractUser):
     birday = models.DateField(null=True, blank=True, verbose_name=u"生日")
     gender = models.CharField(choices=(("male", u"男"), ("female", u"女")), default="female", max_length=6)
     address = models.CharField(max_length=100, default="")
-    mobile = models.CharField(max_length=11, default="", null=True, blank=True)
+    mobile = models.CharField(_('mobile'), max_length=11, unique=True, validators=[MobileValidator()])
     image = models.ImageField(upload_to="image/%Y/%m",
                               default=u"image/default.png", max_length=100, null=True, blank=True)
 
