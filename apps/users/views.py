@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+
+from django.db.models import Q
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 # 密码 加密
@@ -32,10 +34,7 @@ class LoginView(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    if user.backend == 'users.authentication.EmailAuthBackend':
-                        up = UserProfile.objects.get(email=username)
-                    else:
-                        up = UserProfile.objects.get(username=username)
+                    # up = UserProfile.objects.get(Q(username=username) | Q(mobile=username) | Q(email=username))
                     return HttpResponseRedirect(reverse('index'))
                     # return render(request, 'index.html',
                     #               {'username': username, 'image': up.image.url})
