@@ -1,5 +1,5 @@
 [mysqld]
-port=3308
+port=3306
 # record_buffer=64M
 bind-address=0.0.0.0
 # skip-grant-tables
