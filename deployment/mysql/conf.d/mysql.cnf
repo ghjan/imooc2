@@ -84,7 +84,7 @@ log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 #pid-file=/var/lib/mysql/mysqld.pid
 [client]
-port=3308
+port=3306
 default-character-set=UTF8
 
 [mysqldump]
